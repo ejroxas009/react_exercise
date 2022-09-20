@@ -1,32 +1,47 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class Counter extends Component {
-  state = {
-    counter: 0,
-  };
-
-  getClassNames() {
-    if (this.state.counter > 0) {
+const Counter = ({ counter, onDelete, onIncrement, onDecrement }) => {
+  const getClassNames = () => {
+    if (counter.value > 0) {
       return "badge bg-primary";
     }
 
     return "badge bg-warning text-dark";
-  }
+  };
 
-  formatText() {
-    const { counter } = this.state;
-    if (counter > 0) {
-      return counter;
+  const formatText = () => {
+    const { value } = counter;
+    if (value > 0) {
+      return value;
     }
 
     return "Zero";
-  }
+  };
 
-  render() {
-    return (
-      <>
-        <span className={this.getClassNames()}>{this.formatText()}</span>
-      </>
-    );
-  }
-}
+  return (
+    <div className="m-4">
+      <span className={getClassNames()}>{formatText()}</span>
+      <button
+        onClick={() => onIncrement(counter.id)}
+        className="btn btn-primary ms-4"
+      >
+        +
+      </button>
+      <button
+        onClick={() => onDecrement(counter.id)}
+        className="btn btn-secondary ms-1"
+        disabled={counter.value === 0}
+      >
+        -
+      </button>
+      <button
+        className="btn btn-danger ms-1"
+        onClick={() => onDelete(counter.id)}
+      >
+        Delete
+      </button>
+    </div>
+  );
+};
+
+export default Counter;
