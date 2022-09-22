@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 
 const Products = ({ products, onIncrement, onDecrement, addedItems }) => {
   return (
-    <>
+    <React.Fragment key={products.id}>
       <br />
       <Grid container spacing={2}>
         {products.map((product) => {
@@ -21,7 +21,7 @@ const Products = ({ products, onIncrement, onDecrement, addedItems }) => {
           );
         })}
       </Grid>
-    </>
+    </React.Fragment>
   );
 };
 
