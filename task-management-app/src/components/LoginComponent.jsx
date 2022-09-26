@@ -29,16 +29,23 @@ const LoginComponent = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    userLogin(loginContext.loginForm).then((res) => {
-      localStorage.setItem("accessToken", res.data.accessToken);
-      fetchTasks().then((res) => userContext.onSetTasks(res.data));
-      loginContext.onSetUser(getCurrentUserRole());
-      if (loginContext.user.isAdmin) {
-        navigate("/admin");
-      } else if (!loginContext.user.isAdmin) {
-        navigate("/user");
-      }
-    });
+
+    userLogin(loginContext.loginForm)
+      .then((res) => {
+        localStorage.setItem("accessToken", res.data.accessToken);
+        fetchTasks().then((res) => userContext.onSetTasks(res.data));
+        loginContext.onSetUser(getCurrentUserRole());
+        if (loginContext.user.isAdmin) {
+          navigate("/admin");
+        } else if (!loginContext.user.isAdmin) {
+          navigate("/user");
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data.statusCode === 400) {
+          alert(error.response.data.message);
+        }
+      });
   };
 
   const schema = Joi.object({

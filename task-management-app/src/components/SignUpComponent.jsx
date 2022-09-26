@@ -45,11 +45,17 @@ const SignUpComponent = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     let userId;
-    userSignup(signUpForm).then((res) =>
-      adminCheck(res.data.id, { ...signUpForm, isAdmin: false }).then((res) =>
-        console.log(res)
+    userSignup(signUpForm)
+      .then((res) =>
+        adminCheck(res.data.id, { ...signUpForm, isAdmin: false }).then((res) =>
+          console.log(res)
+        )
       )
-    );
+      .catch((error) => {
+        if (error.response && error.response.data.statusCode === 400) {
+          alert(error.response.data.message);
+        }
+      });
   };
 
   const schema = Joi.object({
