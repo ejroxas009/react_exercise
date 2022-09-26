@@ -41,9 +41,11 @@ export default function BasicMenu({ onLogout }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem component={Link} to="/user">
-          Dashboard
-        </MenuItem>
+        {!loginContext.user.isAdmin && (
+          <MenuItem component={Link} to="/user">
+            Dashboard
+          </MenuItem>
+        )}
 
         <MenuItem onClick={onLogout}>Logout</MenuItem>
       </Menu>
